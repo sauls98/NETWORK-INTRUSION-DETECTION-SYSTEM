@@ -96,15 +96,6 @@ sudo nano /etc/filebeat/filebeat.yml
 sudo systemctl restart filebeat
 ```
 
-### Gemini AI (opcional)
-
-Editar `dashboard/app.py`:
-```python
-GEMINI_API_KEY = "tu-api-key"
-```
-
-Obtén API key: https://makersuite.google.com/
-
 ## 🔧 Comandos Útiles
 
 ```bash

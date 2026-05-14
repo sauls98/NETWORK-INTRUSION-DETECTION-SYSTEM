@@ -79,7 +79,7 @@ nids_production/
 | **Bot** | Bot | High |
 
 ##  Dashboard - 6 Pestañas
-1. **📊 Resumen**: KPIs, severidad, timeline, gráficos
+1. ** Resumen**: KPIs, severidad, timeline, gráficos
 2. ** Tráfico**: Top IPs origen/destino, puertos, protocolos
 3. ** Forense**: Ataques detectados, alertas críticas
 4. ** ML**: Estado del modelo, métricas, confianza

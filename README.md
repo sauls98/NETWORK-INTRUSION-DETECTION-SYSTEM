@@ -1,17 +1,17 @@
-# 🛡️ NIDS SOC System v4.0 FINAL
+# 🛡️SISTEMA DE INTRUSIONES EN RED
 
 ## Sistema Profesional de Detección de Intrusiones con Correlación UID
 
 Dashboard completo para equipos SOC/NOC con detección ML de 15 tipos de ataques.
 
-## 🚀 Instalación Rápida
+##  Instalación Rápida
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-## 📊 URLs de Acceso
+##  URLs de Acceso
 
 | Servicio | URL |
 |----------|-----|
@@ -21,7 +21,7 @@ chmod +x install.sh
 | **ML API** | http://localhost:5000 |
 | **Logstash** | http://localhost:9600 |
 
-## 🏗️ Arquitectura
+##  Arquitectura
 
 ```
 Network → Zeek → Filebeat → Logstash → ML API → Elasticsearch → Dashboard
@@ -30,7 +30,7 @@ Network → Zeek → Filebeat → Logstash → ML API → Elasticsearch → Dash
                         conn.log (IPs) + flowmeter (ML)
 ```
 
-## 🔑 Correlación UID - Cómo Funciona
+##  Correlación UID - Cómo Funciona
 
 **Problema**: `conn.log` tiene IPs/puertos, `flowmeter.log` tiene métricas ML, pero comparten el `uid`.
 
@@ -39,7 +39,7 @@ Network → Zeek → Filebeat → Logstash → ML API → Elasticsearch → Dash
 2. `flowmeter.log` llega después → obtiene IPs del UID correspondiente
 3. Resultado: documento enriquecido con IPs + predicción ML
 
-## 📁 Estructura
+##  Estructura
 
 ```
 nids_production/
@@ -67,7 +67,7 @@ nids_production/
     └── models/                  # Modelos ML
 ```
 
-## 🤖 Ataques Detectados
+##  Ataques Detectados
 
 | Categoría | Ataques | Severidad |
 |-----------|---------|-----------|
@@ -78,16 +78,14 @@ nids_production/
 | **Injection** | SQL, XSS | High |
 | **Bot** | Bot | High |
 
-## 📊 Dashboard - 6 Pestañas
-
+##  Dashboard - 6 Pestañas
 1. **📊 Resumen**: KPIs, severidad, timeline, gráficos
-2. **🌐 Tráfico**: Top IPs origen/destino, puertos, protocolos
-3. **🔬 Forense**: Ataques detectados, alertas críticas
-4. **🤖 ML**: Estado del modelo, métricas, confianza
-5. **🧠 Gemini**: Análisis AI (requiere API key)
-6. **⚙️ Monitor**: Estado del sistema, índices ES
+2. ** Tráfico**: Top IPs origen/destino, puertos, protocolos
+3. ** Forense**: Ataques detectados, alertas críticas
+4. ** ML**: Estado del modelo, métricas, confianza
+5. ** Monitor**: Estado del sistema, índices ES
 
-## ⚙️ Configuración
+##  Configuración
 
 ### Filebeat (en servidor Zeek)
 
@@ -129,7 +127,7 @@ curl "http://localhost:9200/nids-*/_count"
 curl "http://localhost:9200/_cat/indices/nids-*?v"
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### IPs no aparecen
 - Verificar que `conn.log` llega antes que `flowmeter.log`
@@ -142,7 +140,7 @@ curl "http://localhost:9200/_cat/indices/nids-*?v"
 - Verificar Filebeat: `sudo systemctl status filebeat`
 - Verificar Logstash: `curl http://localhost:9600`
 
-## 📈 Índices de Elasticsearch
+## Índices de Elasticsearch
 
 | Índice | Contenido |
 |--------|-----------|

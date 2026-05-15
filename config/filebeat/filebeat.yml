@@ -1,0 +1,23 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /opt/zeek/logs/current/conn.log
+      - /usr/local/zeek/logs/current/conn.log
+    fields:
+      log_type: conn
+    scan_frequency: 1s
+
+  - type: log
+    enabled: true
+    paths:
+      - /opt/zeek/logs/current/flowmeter.log
+      - /usr/local/zeek/logs/current/flowmeter.log
+    fields:
+      log_type: flowmeter
+    scan_frequency: 1s
+
+output.logstash:
+  hosts: ["localhost:5044"]
+
+logging.level: info

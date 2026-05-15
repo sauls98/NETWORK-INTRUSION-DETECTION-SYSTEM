@@ -1,0 +1,23 @@
+{
+  "index_patterns": ["nids-*"],
+  "priority": 200,
+  "template": {
+    "settings": {"number_of_shards": 1, "number_of_replicas": 0, "index.mapping.ignore_malformed": true},
+    "mappings": {
+      "dynamic_templates": [
+        {"strings": {"match_mapping_type": "string", "mapping": {"type": "keyword"}}},
+        {"longs": {"match_mapping_type": "long", "mapping": {"type": "double"}}}
+      ],
+      "properties": {
+        "@timestamp": {"type": "date"}, "uid": {"type": "keyword"},
+        "src_ip": {"type": "keyword"}, "dst_ip": {"type": "keyword"},
+        "src_port": {"type": "integer", "ignore_malformed": true},
+        "dst_port": {"type": "integer", "ignore_malformed": true},
+        "proto": {"type": "keyword"}, "service": {"type": "keyword"},
+        "is_attack": {"type": "boolean"}, "attack_type": {"type": "keyword"},
+        "severity": {"type": "keyword"}, "ml_confidence": {"type": "double"},
+        "log_type": {"type": "keyword"}, "uid_correlated": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+venv/
+ml_api/models/
+__pycache__/
+*.pyc
+.env
+node_modules/

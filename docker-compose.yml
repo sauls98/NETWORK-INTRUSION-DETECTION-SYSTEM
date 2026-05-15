@@ -1,0 +1,92 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: nids-elasticsearch
+    environment:
+      - node.name=nids-es
+      - cluster.name=nids-cluster
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - nids
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q 'green\\|yellow'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: nids-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - nids
+    restart: unless-stopped
+
+  ml-api:
+    build: ./ml_api
+    container_name: nids-ml-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ml_api/models:/app/models
+    networks:
+      - nids
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: nids-logstash
+    volumes:
+      - ./config/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./config/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./config/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    environment:
+      - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      ml-api:
+        condition: service_healthy
+    networks:
+      - nids
+    restart: always
+
+  dashboard:
+    build: ./dashboard
+    container_name: nids-dashboard
+    ports:
+      - "8050:8050"
+    depends_on:
+      - elasticsearch
+      - ml-api
+    networks:
+      - nids
+    restart: unless-stopped
+
+networks:
+  nids:
+    driver: bridge
+
+volumes:
+  es_data:

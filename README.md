@@ -142,4 +142,4 @@ curl "http://localhost:9200/_cat/indices/nids-*?v"
 
 ---
 
-**NIDS SOC System v4.0 FINAL** - Producción
+**NIDS SOC System * 
